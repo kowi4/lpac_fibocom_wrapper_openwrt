@@ -20,9 +20,7 @@ It works similar as Windows version designed here https://github.com/prusa-dev/l
 `opkg update && opkg install lpac jq sexpect sms-tool`
 
 # Configure lpac to work with wrapper
-`uci set lpac.global.apdu_backend='stdio'`
-`uci set lpac.global.apdu_debug='0'`
-`uci commit lpac`
+`uci set lpac.global.apdu_backend='stdio' && uci set lpac.global.apdu_debug='0' && uci commit lpac`
 
 # Confiigure AT Port for wrapper
 By default there is AT_DEVICE="/dev/ttyUSB3" 
