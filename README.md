@@ -12,6 +12,9 @@ It works similar as Windows version designed here https://github.com/prusa-dev/l
 3. Make sure you have correct AT_DEVICE configured for wrapper: export AT_DEVICE="/dev/ttyUSBx"
 4. Make sure your modem is in correct state and there is no other scripts using AT port (powercycle/reboot usually works)
 
+# Installation
+wget https://raw.githubusercontent.com/kowi4/lpac_fibocom_wrapper_openwrt/refs/heads/main/lpac_wrapper -O /usr/bin/lpac_wrapper
+chmod +x /usr/bin/lpac_wrapper
 
 # Dependencies
 opkg update && opkg install lpac jq sexpect sms-tool
