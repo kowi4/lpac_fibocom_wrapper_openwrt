@@ -31,8 +31,11 @@ to configure different port use:
 It works with stdio so you will see all APDU messages in the console. The last one should be LPA which is the real result from LPAC.
 `lpac_wrapper chip info`
 
-# If doesn't work you can check the logs
+# Debugging 
+If doesn't work you can check the logs:
 `cat /tmp/lpac_wrapper.log`
+or enable lpac debugging 
+`uci set lpac.global.apdu_debug='0' && uci commit lpac`
 
 # Make sure to read the LPAC documentation first to understand what you are doing
 https://github.com/estkme-group/lpac/blob/main/docs/USAGE.md
