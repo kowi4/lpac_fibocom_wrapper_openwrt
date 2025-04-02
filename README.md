@@ -1,10 +1,10 @@
-# lpac_fibocom_wrapper_openwrt
-It is a wrapper for LPAC designed to work with Fibocom FM350 GL written in ash for OpenWrt
+# LPAC Fibocom Wrapper for OpenWrt
+It is a wrapper for LPAC (https://github.com/estkme-group/lpac) designed to work with Fibocom FM350 GL written in ash for OpenWrt
 
 
 # Disclaimer 
 This wrapper is far from perfect written with huge AI help as I don't know ash at all, I only tested basic readonly commands 'lpac_wrapper profile list' and 'lpac_wrapper chip info', it might not work for you. Use with caution.
-It works similar as windows version from here https://github.com/prusa-dev/lpac-fibocom-wrapper/tree/main and this project was used to write this wrapper.
+It works similar as Windows version designed here https://github.com/prusa-dev/lpac-fibocom-wrapper/tree/main.
 
 # Before you try
 1. I am not responsible if this will break your modem, use at your own risk.
