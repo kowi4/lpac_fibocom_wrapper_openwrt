@@ -1,6 +1,6 @@
 # LPAC Fibocom Wrapper for OpenWrt
 
-A wrapper for [LPAC](https://github.com/estkme-group/lpac) designed to work with Fibocom FM350-GL modules, written in ash shell for OpenWrt systems.
+A wrapper for [LPAC](https://github.com/estkme-group/lpac) designed to work with Fibocom FM350-GL modem, written in ash shell for OpenWrt systems.
 
 ## Disclaimer
 
