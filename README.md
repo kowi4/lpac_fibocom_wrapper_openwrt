@@ -19,7 +19,13 @@ chmod +x /usr/bin/lpac_wrapper
 ## Dependencies
 
 ```bash
-opkg update && opkg install lpac jq sexpect sms-tool
+opkg update && opkg install lpac sexpect sms-tool
+```
+
+## Optional Dependencies
+The following package is optional and only used for pretty-printing the LPA response at the end of command execution:
+```bash
+opkg update && opkg install jq
 ```
 
 ## Configuration
