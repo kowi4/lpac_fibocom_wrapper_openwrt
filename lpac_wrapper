@@ -112,10 +112,10 @@ while :; do
         
         log "RECV <<< $line"
         
-        if json_type=$(echo "$line" | jq -r '.type' 2>/dev/null); then
+        if json_type=$(jsonfilter -s "$line" -e '@.type' 2>/dev/null); then
             if [ "$json_type" = "apdu" ]; then
-                func=$(echo "$line" | jq -r '.payload.func')
-                param=$(echo "$line" | jq -r '.payload.param')
+                func=$(jsonfilter -s "$line" -e '@.payload.func')
+                param=$(jsonfilter -s "$line" -e '@.payload.param')
                 
                 if [ -n "$func" ]; then
                     response=$(handle_apdu "$func" "$param")
@@ -127,8 +127,12 @@ while :; do
                     sexpect -sock "$SEXPECT_SOCK" send -enter
                 fi
             elif [ "$json_type" = "lpa" ]; then
-                # Store LPA message in output file (pretty-printed)
-                echo "$line" | jq '.' >> "$OUTPUT_FILE"
+                if command -v jq >/dev/null 2>&1; then
+                    # Store LPA message in output file (pretty-printed)
+                    echo "$line" | jq '.' >> "$OUTPUT_FILE"
+                else
+                    echo "$line" >> "$OUTPUT_FILE"
+                fi
             fi
         else
             # Store non-JSON lines in output file
