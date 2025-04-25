@@ -4,7 +4,13 @@ A wrapper for [LPAC](https://github.com/estkme-group/lpac) designed to work with
 
 ## Disclaimer
 
-This wrapper is an experimental implementation created with significant AI assistance, as the author has limited experience with ash scripting. Basic read-only commands (`lpac_wrapper profile list`, `lpac_wrapper chip info`) have been tested, but full functionality is not guaranteed. Use at your own risk.
+This wrapper is an experimental implementation created with significant AI assistance, as the author has limited experience with ash scripting. The following commands have been tested:
+- `lpac_wrapper profile list`
+- `lpac_wrapper chip info`
+- `lpac_wrapper profile download`
+- `lpac_wrapper notification process`
+
+Full functionality is not guaranteed. Use at your own risk.
 
 The wrapper follows similar functionality to the Windows version available at:  
 https://github.com/prusa-dev/lpac-fibocom-wrapper/tree/main
@@ -28,6 +34,40 @@ The following package is optional and only used for pretty-printing the LPA resp
 opkg update && opkg install jq
 ```
 
+## Fixing libcurl Issues
+
+Some commands (like profile download) may fail with default OpenWrt libcurl installation. To fix this:
+
+### Step 1: Install libcurl-gnutls
+```bash
+opkg install libcurl-gnutls4
+```
+
+### Step 2: Check library paths
+```bash
+ls -l /usr/lib/libcurl*
+```
+You should see something like:
+```
+lrwxrwxrwx libcurl.so.4 -> libcurl.so.4.5.0      (default version)
+-rwxr-xr-x libcurl-gnutls.so.4.5.0               (GnuTLS version)
+```
+
+### Step 3: Change libcurl.so.4 symlink
+```bash
+cd /usr/lib
+rm libcurl.so.4
+ln -s libcurl-gnutls.so.4 libcurl.so.4
+```
+
+### Reverting changes
+If something goes wrong, restore the original link:
+```bash
+cd /usr/lib
+rm libcurl.so.4
+ln -s libcurl.so.4.5.0 libcurl.so.4
+```
+
 ## Configuration
 
 ### LPAC Configuration
@@ -48,22 +88,29 @@ export AT_DEVICE="/dev/ttyUSBx"
 
 The wrapper operates via stdio, displaying all APDU messages in the console. The final output will be the LPA result from LPAC.
 
-Example:
+Example commands:
 ```bash
 lpac_wrapper chip info
+lpac_wrapper profile list
+lpac_wrapper profile download -a 'LPA:1$rsp.truphone.com$QR-G-5C-1LS-1W1Z9P7'
+lpac_wrapper profile disable 1234567890
+lpac_wrapper profile enable 1234567890
+lpac_wrapper notification process -a -r
 ```
 
 ## Troubleshooting
 
 1. Check wrapper logs:
-   ```bash
-   cat /tmp/lpac_wrapper.log
-   ```
+```bash
+cat /tmp/lpac_wrapper.log
+```
 
 2. Enable LPAC debugging:
-   ```bash
-   uci set lpac.global.apdu_debug='1' && uci commit lpac
-   ```
+```bash
+uci set lpac.global.apdu_debug='1' && uci commit lpac
+```
+
+3. If experiencing libcurl issues, follow the libcurl fix instructions above
 
 ## Documentation
 
