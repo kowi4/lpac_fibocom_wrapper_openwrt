@@ -33,10 +33,39 @@ The following package is optional and only used for pretty-printing the LPA resp
 ```bash
 opkg update && opkg install jq
 ```
+## Configuration
+
+### LPAC Configuration
+```bash
+uci set lpac.global.apdu_backend='stdio'
+uci set lpac.global.apdu_debug='0'
+uci commit lpac
+```
+
+### AT Port Configuration
+Default AT device: `/dev/ttyUSB3`  
+To specify a different port:
+```bash
+export AT_DEVICE="/dev/ttyUSBx"
+```
+
+## Usage
+
+The wrapper operates via stdio, displaying all APDU messages in the console. The final output will be the LPA result from LPAC.
+
+Example commands:
+```bash
+lpac_wrapper chip info
+lpac_wrapper profile list
+lpac_wrapper profile download -a 'LPA:1$rsp.truphone.com$QR-G-5C-1LS-1W1Z9P7'
+lpac_wrapper profile disable 1234567890
+lpac_wrapper profile enable 1234567890
+lpac_wrapper notification process -a -r
+```
 
 ## Fixing libcurl Issues
 
-Some commands (like profile download) may fail with default OpenWrt libcurl installation. To fix this:
+Some commands (like profile download) may fail with default OpenWrt libcurl installation (https://github.com/openwrt/packages/issues/24963). To fix this:
 
 ### Step 1: Install libcurl-gnutls
 ```bash
@@ -68,35 +97,6 @@ rm libcurl.so.4
 ln -s libcurl.so.4.5.0 libcurl.so.4
 ```
 
-## Configuration
-
-### LPAC Configuration
-```bash
-uci set lpac.global.apdu_backend='stdio'
-uci set lpac.global.apdu_debug='0'
-uci commit lpac
-```
-
-### AT Port Configuration
-Default AT device: `/dev/ttyUSB3`  
-To specify a different port:
-```bash
-export AT_DEVICE="/dev/ttyUSBx"
-```
-
-## Usage
-
-The wrapper operates via stdio, displaying all APDU messages in the console. The final output will be the LPA result from LPAC.
-
-Example commands:
-```bash
-lpac_wrapper chip info
-lpac_wrapper profile list
-lpac_wrapper profile download -a 'LPA:1$rsp.truphone.com$QR-G-5C-1LS-1W1Z9P7'
-lpac_wrapper profile disable 1234567890
-lpac_wrapper profile enable 1234567890
-lpac_wrapper notification process -a -r
-```
 
 ## Troubleshooting
 
